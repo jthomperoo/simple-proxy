@@ -29,7 +29,7 @@ be called from anywhere (e.g. the `/usr/bin` directory).
 You can use `wget` to download and install the program to your `/usr/bin` directory by running these commands:
 
 ```bash
-wget https://github.com/jthomperoo/simple-proxy/releases/download/latest/simple-proxy_linux_amd64.zip
+wget https://github.com/jthomperoo/simple-proxy/releases/download/v1.0.0/simple-proxy_linux_amd64.zip
 unzip -d simple-proxy simple-proxy_linux_amd64.zip
 cp simple-proxy/simple-proxy /usr/bin/simple-proxy
 rm -r simple-proxy/ simple-proxy_linux_amd64.zip
