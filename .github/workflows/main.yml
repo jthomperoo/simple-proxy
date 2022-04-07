@@ -1,0 +1,106 @@
+name: main
+on:
+  push:
+  pull_request:
+  release:
+    types: [created]
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Set up Go 1.17
+      uses: actions/setup-go@v1
+      with:
+        go-version: 1.17
+      id: go
+    - uses: dominikh/staticcheck-action@v1.1.0
+      with:
+      version: "2022.1"
+    - name: Check out code into the Go module directory
+      uses: actions/checkout@v1
+    - name: Lint, test and build
+      run: |
+
+        # Lint and format
+        make lint
+        make format
+
+        # Exit if after beautification there are any code differences
+        git diff --exit-code
+
+        # Run tests
+        make test
+
+        # Build and package
+        if [ ${{ github.event_name }} == "release" ]; then
+          VERSION="${{ github.event.release.tag_name }}"
+        else
+          VERSION=$(git rev-parse --short ${{ github.sha }})
+        fi
+        make VERSION="${VERSION}"
+        make zip
+
+    - name: Publish linux 386
+      if: github.event_name == 'release'
+      uses: Shopify/upload-to-release@1.0.0
+      with:
+        name: simple-proxy_linux_386.zip
+        path: dist/simple-proxy_linux_386.zip
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Publish linux amd64
+      if: github.event_name == 'release'
+      uses: Shopify/upload-to-release@1.0.0
+      with:
+        name: simple-proxy_linux_amd64.zip
+        path: dist/simple-proxy_linux_amd64.zip
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Publish linux arm
+      if: github.event_name == 'release'
+      uses: Shopify/upload-to-release@1.0.0
+      with:
+        name: simple-proxy_linux_arm.zip
+        path: dist/simple-proxy_linux_arm.zip
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Publish linux arm64
+      if: github.event_name == 'release'
+      uses: Shopify/upload-to-release@1.0.0
+      with:
+        name: simple-proxy_linux_arm64.zip
+        path: dist/simple-proxy_linux_arm64.zip
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Publish darwin amd64
+      if: github.event_name == 'release'
+      uses: Shopify/upload-to-release@1.0.0
+      with:
+        name: simple-proxy_darwin_amd64.zip
+        path: dist/simple-proxy_darwin_amd64.zip
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Publish darwin arm64
+      if: github.event_name == 'release'
+      uses: Shopify/upload-to-release@1.0.0
+      with:
+        name: simple-proxy_darwin_arm64.zip
+        path: dist/simple-proxy_darwin_arm64.zip
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Publish windows 386
+      if: github.event_name == 'release'
+      uses: Shopify/upload-to-release@1.0.0
+      with:
+        name: simple-proxy_windows_386.zip
+        path: dist/simple-proxy_windows_386.zip
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Publish windows amd64
+      if: github.event_name == 'release'
+      uses: Shopify/upload-to-release@1.0.0
+      with:
+        name: simple-proxy_windows_amd64.zip
+        path: dist/simple-proxy_windows_amd64.zip
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
