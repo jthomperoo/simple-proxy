@@ -88,3 +88,7 @@ Usage of simple-proxy:
   -vmodule value
     	comma-separated list of pattern=N settings for file-filtered logging
 ```
+
+## Contributing
+
+See the [CONTRIBUTING](./CONTRIBUTING.md) and [CODE OF CONDUCT](./CODE_OF_CONDUCT.md) documents.
