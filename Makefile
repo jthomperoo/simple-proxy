@@ -51,7 +51,7 @@ lint:
 	staticcheck ./...
 
 format:
-	@echo "=============Beautifying============="
+	@echo "=============Formatting============="
 	gofmt -s -w .
 	go mod tidy
 

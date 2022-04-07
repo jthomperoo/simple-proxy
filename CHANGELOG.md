@@ -6,6 +6,7 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [v1.0.0]
 ### Added
 - Initial release, self-contained binary that allows hosting a simple proxy.
     - Supports HTTP and HTTPS.
@@ -17,4 +18,5 @@ Versioning](https://semver.org/spec/v2.0.0.html).
         - Can choose the log verbosity with the `-v` flag.
         - Can choose to log to a file.
 
-[Unreleased]: https://github.com/jthomperoo/simple-proxy/commits/main
+[Unreleased]: https://github.com/jthomperoo/simple-proxy/compare/v2.5.0...HEAD
+[0.1.0]: https://github.com/jthomperoo/simple-proxy/releases/tag/0.1.0

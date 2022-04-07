@@ -26,7 +26,7 @@ jobs:
         make lint
         make format
 
-        # Exit if after beautification there are any code differences
+        # Exit if after formatting there are any code differences
         git diff --exit-code
 
         # Run tests
