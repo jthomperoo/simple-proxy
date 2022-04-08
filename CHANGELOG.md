@@ -5,13 +5,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [v1.1.0] - 2022-04-08
 ## Added
 - Basic auth support, can provide `--basic-auth 'username:password'` which the proxy then checks for valid auth
 provided in the `Proxy-Authentication` header.
 - Can choose if auth should be logged with the `--log-auth` option.
 - Can choose to log all request headers using the `--log-headers` option.
 
-## [v1.0.0]
+## [v1.0.0] - 2022-04-07
 ### Added
 - Initial release, self-contained binary that allows hosting a simple proxy.
     - Supports HTTP and HTTPS.
@@ -23,5 +25,6 @@ provided in the `Proxy-Authentication` header.
         - Can choose the log verbosity with the `-v` flag.
         - Can choose to log to a file.
 
-[Unreleased]: https://github.com/jthomperoo/simple-proxy/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/jthomperoo/simple-proxy/compare/v1.1.0...HEAD
+[v1.1.0]:https://github.com/jthomperoo/simple-proxy/compare/v1.0.0...v1.1.0
 [v1.0.0]: https://github.com/jthomperoo/simple-proxy/releases/tag/v1.0.0
