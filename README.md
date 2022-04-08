@@ -7,14 +7,17 @@ Code based on the guide here: <https://medium.com/@mlowicki/http-s-proxy-in-gola
 
 ## Features
 
-- Supports HTTP and HTTPS.
-- Supports choosing which port.
-- Supports printing binary version number.
-- Supports specifying paths to certificate and private key file to use.
+- HTTP and HTTPS.
+- Can choose which port to run on.
+- Can specify paths to certificate and private key file to use.
 - Logs each proxied connection.
-- Supports log options can be supplied using `glog`.
+- Log options can be supplied using `glog`.
   - Can choose the log verbosity with the `-v` flag.
   - Can choose to log to a file.
+- Basic authentication.
+- Can log request headers.
+- Can log failed authentication attempt details.
+- Printing version number.
 
 ## Install
 
@@ -63,10 +66,16 @@ The program has the following options, you can see this list by using the `--hel
 Usage of simple-proxy:
   -alsologtostderr
     	log to standard error as well as files
+  -basic-auth string
+    	basic auth, format 'username:password', no auth if not provided
   -cert string
     	path to cert file
   -key string
     	path to key file
+  -log-auth
+    	log failed proxy auth details
+  -log-headers
+    	log request headers
   -log_backtrace_at value
     	when logging hits line file:N, emit a stack trace
   -log_dir string

@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## Added
+- Basic auth support, can provide `--basic-auth 'username:password'` which the proxy then checks for valid auth
+provided in the `Proxy-Authentication` header.
+- Can choose if auth should be logged with the `--log-auth` option.
+- Can choose to log all request headers using the `--log-headers` option.
 
 ## [v1.0.0]
 ### Added

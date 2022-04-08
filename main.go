@@ -7,6 +7,8 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
+	"time"
 
 	"github.com/golang/glog"
 	"github.com/jthomperoo/simple-proxy/proxy"
@@ -36,6 +38,12 @@ func main() {
 	flag.StringVar(&certPath, "cert", "", "path to cert file")
 	var keyPath string
 	flag.StringVar(&keyPath, "key", "", "path to key file")
+	var basicAuth string
+	flag.StringVar(&basicAuth, "basic-auth", "", "basic auth, format 'username:password', no auth if not provided")
+	var logAuth bool
+	flag.BoolVar(&logAuth, "log-auth", false, "log failed proxy auth details")
+	var logHeaders bool
+	flag.BoolVar(&logHeaders, "log-headers", false, "log request headers")
 	var timeoutSecs int
 	flag.IntVar(&timeoutSecs, "timeout", 10, "timeout in seconds")
 	flag.Parse()
@@ -50,12 +58,33 @@ func main() {
 	}
 
 	if protocol == httpsProtocol && (certPath == "" || keyPath == "") {
-		glog.Fatalf("If using HTTPS protocol --cert and --key are required")
+		glog.Fatalf("If using HTTPS protocol --cert and --key are required\n")
+	}
+
+	var handler http.Handler
+	if basicAuth == "" {
+		handler = &proxy.ProxyHandler{
+			Timeout:    time.Duration(timeoutSecs) * time.Second,
+			LogAuth:    logAuth,
+			LogHeaders: logHeaders,
+		}
+	} else {
+		parts := strings.Split(basicAuth, ":")
+		if len(parts) < 2 {
+			glog.Fatalf("Invalid basic auth provided, must be in format 'username:password', auth: %s\n", basicAuth)
+		}
+		handler = &proxy.ProxyHandler{
+			Timeout:    time.Duration(timeoutSecs) * time.Second,
+			Username:   &parts[0],
+			Password:   &parts[1],
+			LogAuth:    logAuth,
+			LogHeaders: logHeaders,
+		}
 	}
 
 	server := &http.Server{
 		Addr:    fmt.Sprintf(":%s", port),
-		Handler: proxy.NewProxyHandler(timeoutSecs),
+		Handler: handler,
 		// Disable HTTP/2.
 		TLSNextProto: make(map[string]func(*http.Server, *tls.Conn, http.Handler)),
 	}
