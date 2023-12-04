@@ -100,7 +100,7 @@ Usage of simple-proxy:
 
 ## Checking the proxy is working
 
-You can use cURL on Linux/MacOS systems to check if your proxy is working:
+You can use [cURL](https://curl.se/) on Linux/MacOS systems to check if your proxy is working:
 
 ```bash
 curl --proxy 'http://localhost:8888' 'https://www.random.org/integers/?num=1&min=1&max=5&col=1&base=10&format=plain&rnd=new'
@@ -108,6 +108,12 @@ curl --proxy 'http://localhost:8888' 'https://www.random.org/integers/?num=1&min
 
 This will reach out to [random.org](https://www.random.org) to fetch a random number, using the default proxy address
 and port.
+
+On Windows you can use:
+
+```powershell
+curl.exe 'https://www.random.org/integers/?num=1&min=1&max=5&col=1&base=10&format=plain&rnd=new' --proxy 'http://localhost:8888'
+```
 
 ## Contributing
 
