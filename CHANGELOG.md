@@ -5,9 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Fixed
+- Fixed issue with incorrect headers and response code for browser/system level proxy settings
+([#1](https://github.com/jthomperoo/simple-proxy/issues/1)).
 
 ## [v1.1.0] - 2022-04-08
-## Added
+### Added
 - Basic auth support, can provide `--basic-auth 'username:password'` which the proxy then checks for valid auth
 provided in the `Proxy-Authentication` header.
 - Can choose if auth should be logged with the `--log-auth` option.
