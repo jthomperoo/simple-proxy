@@ -42,7 +42,8 @@ func (p *ProxyHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			} else {
 				glog.Errorln("Unauthorized")
 			}
-			http.Error(w, "Unauthorized", http.StatusUnauthorized)
+			w.Header().Set("Proxy-Authenticate", "Basic")
+			http.Error(w, "Unauthorized", http.StatusProxyAuthRequired)
 			return
 		}
 	}

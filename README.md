@@ -98,6 +98,17 @@ Usage of simple-proxy:
     	comma-separated list of pattern=N settings for file-filtered logging
 ```
 
+## Checking the proxy is working
+
+You can use cURL on Linux/MacOS systems to check if your proxy is working:
+
+```bash
+curl --proxy 'http://localhost:8888' 'https://www.random.org/integers/?num=1&min=1&max=5&col=1&base=10&format=plain&rnd=new'
+```
+
+This will reach out to [random.org](https://www.random.org) to fetch a random number, using the default proxy address
+and port.
+
 ## Contributing
 
 See the [CONTRIBUTING](./CONTRIBUTING.md) and [CODE OF CONDUCT](./CODE_OF_CONDUCT.md) documents.
