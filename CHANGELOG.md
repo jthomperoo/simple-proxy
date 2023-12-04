@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [v1.1.1] - 2023-12-04
 ### Fixed
 - Fixed issue with incorrect headers and response code for browser/system level proxy settings
 ([#1](https://github.com/jthomperoo/simple-proxy/issues/1)).
@@ -28,6 +30,7 @@ provided in the `Proxy-Authentication` header.
         - Can choose the log verbosity with the `-v` flag.
         - Can choose to log to a file.
 
-[Unreleased]: https://github.com/jthomperoo/simple-proxy/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/jthomperoo/simple-proxy/compare/v1.1.1...HEAD
+[v1.1.1]:https://github.com/jthomperoo/simple-proxy/compare/v1.1.0...v1.1.1
 [v1.1.0]:https://github.com/jthomperoo/simple-proxy/compare/v1.0.0...v1.1.0
 [v1.0.0]: https://github.com/jthomperoo/simple-proxy/releases/tag/v1.0.0
