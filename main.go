@@ -33,7 +33,7 @@ func main() {
 	var protocol string
 	flag.StringVar(&protocol, "protocol", httpProtocol, "proxy protocol (http or https)")
 	var port string
-	flag.StringVar(&port, "port", "8888", "proxy port to listen on")
+	flag.StringVar(&port, "port", "8889", "proxy port to listen on")
 	var certPath string
 	flag.StringVar(&certPath, "cert", "", "path to cert file")
 	var keyPath string
