@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- New `--bind` option which allows you to specify what address to bind to, defaults to `0.0.0.0`.
 
 ## [v1.1.1] - 2023-12-04
 ### Fixed

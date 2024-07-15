@@ -32,6 +32,8 @@ func main() {
 	flag.BoolVar(&version, "version", false, "prints current simple-proxy version")
 	var protocol string
 	flag.StringVar(&protocol, "protocol", httpProtocol, "proxy protocol (http or https)")
+	var bind string
+	flag.StringVar(&bind, "bind", "0.0.0.0", "address to bind the proxy server to")
 	var port string
 	flag.StringVar(&port, "port", "8888", "proxy port to listen on")
 	var certPath string
@@ -83,7 +85,7 @@ func main() {
 	}
 
 	server := &http.Server{
-		Addr:    fmt.Sprintf(":%s", port),
+		Addr:    fmt.Sprintf("%s:%s", bind, port),
 		Handler: handler,
 		// Disable HTTP/2.
 		TLSNextProto: make(map[string]func(*http.Server, *tls.Conn, http.Handler)),

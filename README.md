@@ -68,6 +68,8 @@ Usage of simple-proxy:
     	log to standard error as well as files
   -basic-auth string
     	basic auth, format 'username:password', no auth if not provided
+  -bind string
+    	address to bind the proxy server to (default "0.0.0.0")
   -cert string
     	path to cert file
   -key string
@@ -112,7 +114,7 @@ and port.
 On Windows you can use:
 
 ```powershell
-curl.exe 'https://www.random.org/integers/?num=1&min=1&max=5&col=1&base=10&format=plain&rnd=new' --proxy 'http://localhost:8888'
+curl.exe --proxy 'http://localhost:8888' 'https://www.random.org/integers/?num=1&min=1&max=5&col=1&base=10&format=plain&rnd=new'
 ```
 
 ## Contributing
