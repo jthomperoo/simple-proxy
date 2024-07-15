@@ -9,18 +9,17 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-    - name: Set up Go 1.17
-      uses: actions/setup-go@v1
+    - name: Set up Go 1.22
+      uses: actions/setup-go@v5
       with:
-        go-version: 1.17
-      id: go
-    - uses: dominikh/staticcheck-action@v1.1.0
-      with:
-        version: "2022.1"
+        go-version: 1.22
     - name: Check out code into the Go module directory
-      uses: actions/checkout@v1
+      uses: actions/checkout@v4
     - name: Lint, test and build
       run: |
+
+        # Install staticcheck for linting
+        go install honnef.co/go/tools/cmd/staticcheck@2023.1
 
         # Lint and format
         make lint

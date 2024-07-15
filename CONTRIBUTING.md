@@ -134,8 +134,8 @@ the other projects that solved it better and which could serve as inspiration.
 
 Developing this project requires these dependencies:
 
-* [Go](https://golang.org/doc/install) >= `1.17`
-* [Static Check](https://github.com/dominikh/go-tools) == `2022.1 (v0.3.0)`
+* [Go](https://golang.org/doc/install) >= `1.22`
+* [Static Check](https://github.com/dominikh/go-tools) == `2023.1 (v0.4.0)`
 
 ### Commands
 
