@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [v1.2.0] - 2024-07-15
 ### Added
 - New `--bind` option which allows you to specify what address to bind to, defaults to `0.0.0.0`.
 ### Changed
@@ -34,7 +36,8 @@ provided in the `Proxy-Authentication` header.
         - Can choose the log verbosity with the `-v` flag.
         - Can choose to log to a file.
 
-[Unreleased]: https://github.com/jthomperoo/simple-proxy/compare/v1.1.1...HEAD
+[Unreleased]: https://github.com/jthomperoo/simple-proxy/compare/v1.2.0...HEAD
+[v1.2.0]:https://github.com/jthomperoo/simple-proxy/compare/v1.1.1...v1.2.0
 [v1.1.1]:https://github.com/jthomperoo/simple-proxy/compare/v1.1.0...v1.1.1
 [v1.1.0]:https://github.com/jthomperoo/simple-proxy/compare/v1.0.0...v1.1.0
 [v1.0.0]: https://github.com/jthomperoo/simple-proxy/releases/tag/v1.0.0
