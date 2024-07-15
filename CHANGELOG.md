@@ -7,6 +7,8 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 ## [Unreleased]
 ### Added
 - New `--bind` option which allows you to specify what address to bind to, defaults to `0.0.0.0`.
+### Changed
+- Updated to Go version `1.22`.
 
 ## [v1.1.1] - 2023-12-04
 ### Fixed
