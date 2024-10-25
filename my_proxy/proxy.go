@@ -1,4 +1,4 @@
-package proxy
+package my_proxy
 
 import (
 	"encoding/base64"
@@ -8,8 +8,11 @@ import (
 	"strings"
 	"time"
 
+	"golang.org/x/net/proxy"
 	"github.com/golang/glog"
 )
+
+var Socks5 = "127.0.0.1:7890"
 
 func NewProxyHandler(timeoutSeconds int) *ProxyHandler {
 	return &ProxyHandler{
@@ -55,7 +58,13 @@ func (p *ProxyHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleTunneling(w http.ResponseWriter, r *http.Request, timeout time.Duration) {
-	dest_conn, err := net.DialTimeout("tcp", r.Host, timeout)
+	// https://gist.github.com/jiahuif/5114abf068ee07bdf0e38d2cd29601f3#file-main-go-L35
+	socks5_dailer , err := proxy.SOCKS5("tcp", Socks5, nil, &net.Dialer{
+		Timeout:   60 * time.Second,
+		KeepAlive: 30 * time.Second,
+	})
+	// dest_conn, err := net.DialTimeout("tcp", r.Host, timeout)
+	dest_conn, err := socks5_dailer.Dial("tcp", r.Host)
 	if err != nil {
 		glog.Errorf("Failed to dial host, %s\n", err.Error())
 		http.Error(w, err.Error(), http.StatusServiceUnavailable)

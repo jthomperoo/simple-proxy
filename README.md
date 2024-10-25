@@ -5,6 +5,14 @@ anywhere and run.
 
 Code based on the guide here: <https://medium.com/@mlowicki/http-s-proxy-in-golang-in-less-than-100-lines-of-code-6a51c2f2c38c>
 
+
+## HTTP转Socks5
+由于最新docer免费版无法在容器内连外部socks5代理，https://docs.docker.com/desktop/networking/#socks5-proxy-support  
+因此在容器外部开这个代理：  
+```
+./dist/linux_arm64/simple-proxy -port 7990
+```
+
 ## Features
 
 - HTTP and HTTPS.
