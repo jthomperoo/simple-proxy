@@ -8,11 +8,12 @@ import (
 	"strings"
 	"time"
 
-	net_proxy "golang.org/x/net/proxy"
 	"github.com/golang/glog"
+	net_proxy "golang.org/x/net/proxy"
 )
 
-var Socks5 = "127.0.0.1:7890"
+// Using a socks5 proxy to tunnel the HTTP requests, e.g., 127.0.0.1:7890
+var Socks5 = "" 
 
 func NewProxyHandler(timeoutSeconds int) *ProxyHandler {
 	return &ProxyHandler{
