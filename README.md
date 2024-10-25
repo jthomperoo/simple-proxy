@@ -5,14 +5,6 @@ anywhere and run.
 
 Code based on the guide here: <https://medium.com/@mlowicki/http-s-proxy-in-golang-in-less-than-100-lines-of-code-6a51c2f2c38c>
 
-
-## HTTP转Socks5
-由于最新docer免费版无法在容器内连外部socks5代理，https://docs.docker.com/desktop/networking/#socks5-proxy-support  
-因此在容器外部开这个代理：  
-```
-./dist/linux_arm64/simple-proxy -port 7990
-```
-
 ## Features
 
 - HTTP and HTTPS.
@@ -26,6 +18,7 @@ Code based on the guide here: <https://medium.com/@mlowicki/http-s-proxy-in-gola
 - Can log request headers.
 - Can log failed authentication attempt details.
 - Printing version number.
+- Tunnel HTTP proxy to socks5 proxy
 
 ## Install
 
@@ -56,6 +49,10 @@ You can run the binary directly:
 
 ```bash
 ./simple-proxy
+
+# tunnel the http proxy to socks5 proxy
+# client -> localhost:7990 [http proxy] -> 127.0.0.1:7890 [socks5 proxy] -> server
+./simple-proxy -port 7990 -socks 127.0.0.1:7890
 ```
 
 ## Windows
@@ -94,6 +91,8 @@ Usage of simple-proxy:
     	log to standard error instead of files
   -port string
     	proxy port to listen on (default "8888")
+  -socks5 string
+    	proxy tunnel the http requests to a socks5 proxy (default "", feature off)
   -protocol string
     	proxy protocol (http or https) (default "http")
   -stderrthreshold value

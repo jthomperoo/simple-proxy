@@ -11,7 +11,7 @@ import (
 	"time"
 
 	"github.com/golang/glog"
-	"github.com/jthomperoo/simple-proxy/my_proxy"
+	my_proxy "github.com/jthomperoo/simple-proxy/proxy"
 )
 
 var (
@@ -37,7 +37,7 @@ func main() {
 	var port string
 	flag.StringVar(&port, "port", "8888", "proxy port to listen on")
 	var socks5 string
-	flag.StringVar(&socks5, "socks5", "127.0.0.1:7890", "SOCKS5 proxy to use for tunneling")
+	flag.StringVar(&socks5, "socks5", "", "SOCKS5 proxy for tunneling")
 	var certPath string
 	flag.StringVar(&certPath, "cert", "", "path to cert file")
 	var keyPath string
@@ -97,6 +97,9 @@ func main() {
 
 	if protocol == httpProtocol {
 		glog.V(0).Infoln("Starting HTTP proxy...")
+		if socks5 != "" {
+			glog.V(0).Infof("Tunneling HTTP requests to SOCKS5 proxy: %s\n", socks5)
+		}
 		log.Fatal(server.ListenAndServe())
 	} else {
 		glog.V(0).Infoln("Starting HTTPS proxy...")

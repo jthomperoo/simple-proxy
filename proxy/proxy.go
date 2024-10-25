@@ -1,4 +1,4 @@
-package my_proxy
+package proxy
 
 import (
 	"encoding/base64"
@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"golang.org/x/net/proxy"
+	net_proxy "golang.org/x/net/proxy"
 	"github.com/golang/glog"
 )
 
@@ -58,13 +58,26 @@ func (p *ProxyHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleTunneling(w http.ResponseWriter, r *http.Request, timeout time.Duration) {
-	// https://gist.github.com/jiahuif/5114abf068ee07bdf0e38d2cd29601f3#file-main-go-L35
-	socks5_dailer , err := proxy.SOCKS5("tcp", Socks5, nil, &net.Dialer{
-		Timeout:   60 * time.Second,
-		KeepAlive: 30 * time.Second,
-	})
-	// dest_conn, err := net.DialTimeout("tcp", r.Host, timeout)
-	dest_conn, err := socks5_dailer.Dial("tcp", r.Host)
+	var dest_conn net.Conn
+	var err error
+
+	// Check if the socks5 proxy is set
+	// Then tunnel to socks5 proxy
+	if Socks5 == "" {
+		dest_conn, err = net.DialTimeout("tcp", r.Host, timeout)
+	} else {
+		var socks5_dailer net_proxy.Dialer
+		socks5_dailer, err = net_proxy.SOCKS5("tcp", Socks5, nil, &net.Dialer{
+			Timeout:   timeout,
+			KeepAlive: 30 * time.Second,
+		})
+		if err != nil {
+			glog.Errorf("Failed to dail socks5 proxy %s, %s\n", Socks5, err.Error())
+			http.Error(w, err.Error(), http.StatusServiceUnavailable)
+			return
+		}
+		dest_conn, err = socks5_dailer.Dial("tcp", r.Host)
+	}
 	if err != nil {
 		glog.Errorf("Failed to dial host, %s\n", err.Error())
 		http.Error(w, err.Error(), http.StatusServiceUnavailable)
