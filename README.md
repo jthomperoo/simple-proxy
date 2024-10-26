@@ -7,18 +7,18 @@ Code based on the guide here: <https://medium.com/@mlowicki/http-s-proxy-in-gola
 
 ## Features
 
-- HTTP and HTTPS.
-- Can choose which port to run on.
-- Can specify paths to certificate and private key file to use.
-- Logs each proxied connection.
-- Log options can be supplied using `glog`.
-  - Can choose the log verbosity with the `-v` flag.
-  - Can choose to log to a file.
-- Basic authentication.
-- Can log request headers.
-- Can log failed authentication attempt details.
-- Printing version number.
-- Tunnel HTTP proxy to socks5 proxy
+- HTTP and HTTPS
+- Can choose which port to run on
+- Can specify paths to certificate and private key file to use
+- Logs each proxied connection
+- Log options can be supplied using `glog`
+  - Can choose the log verbosity with the `-v` flag
+  - Can choose to log to a file
+- Basic authentication
+- Can log request headers
+- Can log failed authentication attempt details
+- Printing version number
+- Tunnelling HTTP proxy to SOCKS5 proxy
 
 ## Install
 
@@ -49,10 +49,6 @@ You can run the binary directly:
 
 ```bash
 ./simple-proxy
-
-# tunnel the http proxy to socks5 proxy
-# client -> localhost:7990 [http proxy] -> 127.0.0.1:7890 [socks5 proxy] -> server
-./simple-proxy -port 7990 -socks 127.0.0.1:7890
 ```
 
 ## Windows
@@ -91,10 +87,12 @@ Usage of simple-proxy:
     	log to standard error instead of files
   -port string
     	proxy port to listen on (default "8888")
-  -socks5 string
-    	proxy tunnel the http requests to a socks5 proxy (default "", feature off)
   -protocol string
     	proxy protocol (http or https) (default "http")
+  -socks5 string
+    	SOCKS5 proxy for tunneling, not used if not provided
+  -socks5-auth string
+    	basic auth for socks5, format 'username:password', no auth if not provided
   -stderrthreshold value
     	logs at or above this threshold go to stderr
   -timeout int

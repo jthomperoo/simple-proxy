@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- New `--socks` option which allows forwarding requests to a SOCKS5 proxy.
+- New `--socks-auth` option which allows adding basic authentication details to forwarded SOCKS5 proxy requests.
 
 ## [v1.2.0] - 2024-07-15
 ### Added

@@ -9,11 +9,8 @@ import (
 	"time"
 
 	"github.com/golang/glog"
-	net_proxy "golang.org/x/net/proxy"
+	netProxy "golang.org/x/net/proxy"
 )
-
-// Using a socks5 proxy to tunnel the HTTP requests, e.g., 127.0.0.1:7890
-var Socks5 = ""
 
 func NewProxyHandler(timeoutSeconds int) *ProxyHandler {
 	return &ProxyHandler{
@@ -22,11 +19,18 @@ func NewProxyHandler(timeoutSeconds int) *ProxyHandler {
 }
 
 type ProxyHandler struct {
-	Timeout    time.Duration
-	Username   *string
-	Password   *string
-	LogAuth    bool
-	LogHeaders bool
+	Timeout       time.Duration
+	Username      *string
+	Password      *string
+	LogAuth       bool
+	LogHeaders    bool
+	Socks5Forward *Socks5Forward
+}
+
+type Socks5Forward struct {
+	Address  string
+	Username *string
+	Password *string
 }
 
 func (p *ProxyHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -52,52 +56,65 @@ func (p *ProxyHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	if r.Method == http.MethodConnect {
-		handleTunneling(w, r, p.Timeout)
+		handleTunneling(w, r, p.Timeout, p.Socks5Forward)
 	} else {
 		handleHTTP(w, r)
 	}
 }
 
-func handleTunneling(w http.ResponseWriter, r *http.Request, timeout time.Duration) {
-	var dest_conn net.Conn
+func handleTunneling(w http.ResponseWriter, r *http.Request, timeout time.Duration, socks5Forward *Socks5Forward) {
+	var destConn net.Conn
 	var err error
 
-	// Check if the socks5 proxy is set
-	// Then tunnel to socks5 proxy
-	if Socks5 == "" {
-		dest_conn, err = net.DialTimeout("tcp", r.Host, timeout)
+	if socks5Forward == nil {
+		destConn, err = net.DialTimeout("tcp", r.Host, timeout)
 	} else {
-		var socks5_dailer net_proxy.Dialer
-		socks5_dailer, err = net_proxy.SOCKS5("tcp", Socks5, nil, &net.Dialer{
+		var socks5Auth *netProxy.Auth
+		if socks5Forward.Username != nil && socks5Forward.Password != nil {
+			socks5Auth = &netProxy.Auth{
+				User:     *socks5Forward.Username,
+				Password: *socks5Forward.Password,
+			}
+		}
+
+		var socks5Dialer netProxy.Dialer
+		socks5Dialer, err = netProxy.SOCKS5("tcp", socks5Forward.Address, socks5Auth, &net.Dialer{
 			Timeout:   timeout,
 			KeepAlive: 30 * time.Second,
 		})
+
 		if err != nil {
-			glog.Errorf("Failed to dail socks5 proxy %s, %s\n", Socks5, err.Error())
+			glog.Errorf("Failed to dial socks5 proxy %s, %s\n", socks5Forward.Address, err.Error())
 			http.Error(w, err.Error(), http.StatusServiceUnavailable)
 			return
 		}
-		dest_conn, err = socks5_dailer.Dial("tcp", r.Host)
+
+		destConn, err = socks5Dialer.Dial("tcp", r.Host)
 	}
+
 	if err != nil {
 		glog.Errorf("Failed to dial host, %s\n", err.Error())
 		http.Error(w, err.Error(), http.StatusServiceUnavailable)
 		return
 	}
+
 	w.WriteHeader(http.StatusOK)
+
 	hijacker, ok := w.(http.Hijacker)
 	if !ok {
 		glog.Errorln("Attempted to hijack connection that does not support it")
 		http.Error(w, "Hijacking not supported", http.StatusInternalServerError)
 		return
 	}
-	client_conn, _, err := hijacker.Hijack()
+
+	clientConn, _, err := hijacker.Hijack()
 	if err != nil {
 		glog.Errorf("Failed to hijack connection, %s\n", err.Error())
 		http.Error(w, err.Error(), http.StatusServiceUnavailable)
 	}
-	go transfer(dest_conn, client_conn)
-	go transfer(client_conn, dest_conn)
+
+	go transfer(destConn, clientConn)
+	go transfer(clientConn, destConn)
 }
 
 func transfer(destination io.WriteCloser, source io.ReadCloser) {
@@ -139,7 +156,6 @@ func proxyBasicAuth(r *http.Request) (username, password string, ok bool) {
 // "Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==" returns ("Aladdin", "open sesame", true).
 func parseBasicAuth(auth string) (username, password string, ok bool) {
 	const prefix = "Basic "
-	// Case insensitive prefix match. See Issue 22736.
 	if len(auth) < len(prefix) || !equalFold(auth[:len(prefix)], prefix) {
 		return
 	}
