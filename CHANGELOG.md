@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [v1.3.0] - 2024-10-26
 ### Added
 - New `--socks` option which allows forwarding requests to a SOCKS5 proxy.
 - New `--socks-auth` option which allows adding basic authentication details to forwarded SOCKS5 proxy requests.
@@ -39,7 +41,8 @@ provided in the `Proxy-Authentication` header.
         - Can choose the log verbosity with the `-v` flag.
         - Can choose to log to a file.
 
-[Unreleased]: https://github.com/jthomperoo/simple-proxy/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/jthomperoo/simple-proxy/compare/v1.3.0...HEAD
+[v1.3.0]:https://github.com/jthomperoo/simple-proxy/compare/v1.2.0...v1.3.0
 [v1.2.0]:https://github.com/jthomperoo/simple-proxy/compare/v1.1.1...v1.2.0
 [v1.1.1]:https://github.com/jthomperoo/simple-proxy/compare/v1.1.0...v1.1.1
 [v1.1.0]:https://github.com/jthomperoo/simple-proxy/compare/v1.0.0...v1.1.0
