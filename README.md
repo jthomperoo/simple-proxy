@@ -18,6 +18,7 @@ Code based on the guide here: <https://medium.com/@mlowicki/http-s-proxy-in-gola
 - Can log request headers.
 - Can log failed authentication attempt details.
 - Printing version number.
+- Tunnel HTTP proxy to socks5 proxy
 
 ## Install
 
@@ -48,6 +49,10 @@ You can run the binary directly:
 
 ```bash
 ./simple-proxy
+
+# tunnel the http proxy to socks5 proxy
+# client -> localhost:7990 [http proxy] -> 127.0.0.1:7890 [socks5 proxy] -> server
+./simple-proxy -port 7990 -socks 127.0.0.1:7890
 ```
 
 ## Windows
@@ -86,6 +91,8 @@ Usage of simple-proxy:
     	log to standard error instead of files
   -port string
     	proxy port to listen on (default "8888")
+  -socks5 string
+    	proxy tunnel the http requests to a socks5 proxy (default "", feature off)
   -protocol string
     	proxy protocol (http or https) (default "http")
   -stderrthreshold value

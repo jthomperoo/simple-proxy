@@ -11,7 +11,7 @@ import (
 	"time"
 
 	"github.com/golang/glog"
-	"github.com/jthomperoo/simple-proxy/proxy"
+	my_proxy "github.com/jthomperoo/simple-proxy/proxy"
 )
 
 var (
@@ -36,6 +36,8 @@ func main() {
 	flag.StringVar(&bind, "bind", "0.0.0.0", "address to bind the proxy server to")
 	var port string
 	flag.StringVar(&port, "port", "8888", "proxy port to listen on")
+	var socks5 string
+	flag.StringVar(&socks5, "socks5", "", "SOCKS5 proxy for tunneling")
 	var certPath string
 	flag.StringVar(&certPath, "cert", "", "path to cert file")
 	var keyPath string
@@ -63,9 +65,11 @@ func main() {
 		glog.Fatalf("If using HTTPS protocol --cert and --key are required\n")
 	}
 
+	my_proxy.Socks5 = socks5
+
 	var handler http.Handler
 	if basicAuth == "" {
-		handler = &proxy.ProxyHandler{
+		handler = &my_proxy.ProxyHandler{
 			Timeout:    time.Duration(timeoutSecs) * time.Second,
 			LogAuth:    logAuth,
 			LogHeaders: logHeaders,
@@ -75,7 +79,7 @@ func main() {
 		if len(parts) < 2 {
 			glog.Fatalf("Invalid basic auth provided, must be in format 'username:password', auth: %s\n", basicAuth)
 		}
-		handler = &proxy.ProxyHandler{
+		handler = &my_proxy.ProxyHandler{
 			Timeout:    time.Duration(timeoutSecs) * time.Second,
 			Username:   &parts[0],
 			Password:   &parts[1],
@@ -93,6 +97,9 @@ func main() {
 
 	if protocol == httpProtocol {
 		glog.V(0).Infoln("Starting HTTP proxy...")
+		if socks5 != "" {
+			glog.V(0).Infof("Tunneling HTTP requests to SOCKS5 proxy: %s\n", socks5)
+		}
 		log.Fatal(server.ListenAndServe())
 	} else {
 		glog.V(0).Infoln("Starting HTTPS proxy...")
