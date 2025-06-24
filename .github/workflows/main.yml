@@ -15,23 +15,15 @@ jobs:
         go-version: 1.24
     - name: Check out code into the Go module directory
       uses: actions/checkout@v4
-    - name: Lint, test and build
+    - name: Lint
+      run: make lint
+    - name: Format
+      run: make format && git diff --exit-code
+    - name: Test
+      run: make test
+    - name: Build
       run: |
 
-        # Install staticcheck for linting
-        go install honnef.co/go/tools/cmd/staticcheck@2023.1
-
-        # Lint and format
-        make lint
-        make format
-
-        # Exit if after formatting there are any code differences
-        git diff --exit-code
-
-        # Run tests
-        make test
-
-        # Build and package
         if [ ${{ github.event_name }} == "release" ]; then
           VERSION="${{ github.event.release.tag_name }}"
         else
