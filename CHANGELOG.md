@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [v1.4.0] - 2025-06-24
 ### Changed
 - Updated to Go 1.24
 - Updated dependencies to resolve security vulnerabilities
@@ -44,7 +46,8 @@ provided in the `Proxy-Authentication` header.
         - Can choose the log verbosity with the `-v` flag.
         - Can choose to log to a file.
 
-[Unreleased]: https://github.com/jthomperoo/simple-proxy/compare/v1.3.0...HEAD
+[Unreleased]: https://github.com/jthomperoo/simple-proxy/compare/v1.4.0...HEAD
+[v1.4.0]:https://github.com/jthomperoo/simple-proxy/compare/v1.3.0...v1.4.0
 [v1.3.0]:https://github.com/jthomperoo/simple-proxy/compare/v1.2.0...v1.3.0
 [v1.2.0]:https://github.com/jthomperoo/simple-proxy/compare/v1.1.1...v1.2.0
 [v1.1.1]:https://github.com/jthomperoo/simple-proxy/compare/v1.1.0...v1.1.1
