@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed
+- Updated to Go 1.24
+- Updated dependencies to resolve security vulnerabilities
 
 ## [v1.3.0] - 2024-10-26
 ### Added
