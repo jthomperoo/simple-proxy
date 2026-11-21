@@ -39,6 +39,17 @@ cp simple-proxy/simple-proxy /usr/bin/simple-proxy
 rm -r simple-proxy/ simple-proxy_linux_amd64.zip
 ```
 
+### Docker
+
+You can build a container image from the `Dockerfile` in this repository:
+
+```bash
+docker build --build-arg VERSION=v1.4.0 -t simple-proxy .
+docker run -p 8888:8888 simple-proxy
+```
+
+Options are passed as arguments, e.g. `docker run -p 8888:8888 simple-proxy --basic-auth user:pass`.
+
 ## Usage
 
 You can download the binary and run the program directly (it is fully self contained).
