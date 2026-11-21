@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- `Dockerfile` for running simple-proxy as a container (static binary on Alpine, unprivileged user).
+### Changed
+- Updated to Go 1.26 and `golang.org/x/net` v0.63.0, picking up the Go standard library and `x/net` security fixes
+  released since v1.4.0.
+- CI takes the Go version from `go.mod`.
 
 ## [v1.4.0] - 2025-06-24
 ### Changed
